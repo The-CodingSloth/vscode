@@ -35,6 +35,12 @@ const icons = new Lazy<IconContribution[]>(() => {
 	return dedupedIcons;
 });
 
+type IconPickerPosition = {
+	target: { targetElements: HTMLElement[]; x: number; y: number };
+	hoverPosition: { hoverPosition: HoverPosition };
+};
+
+
 export class TerminalIconPicker extends Disposable {
 	private readonly _iconSelectBox: WorkbenchIconSelectBox;
 
@@ -51,7 +57,57 @@ export class TerminalIconPicker extends Disposable {
 		});
 	}
 
-	async pickIcons(): Promise<ThemeIcon | undefined> {
+	private _resolveInlineTabTarget(instanceId?: number, anchorElement?: HTMLElement): HTMLElement {
+		const doc = getActiveDocument();
+
+		// If an anchor element is provided, use it
+		if (anchorElement) {
+			return anchorElement;
+		}
+
+		// If instanceId is provided, try to find the specific tab
+		if (instanceId !== undefined) {
+			const specificTab = doc.getElementById(`terminal-tab-instance-${instanceId}`) as HTMLElement | null;
+			if (specificTab) {
+				return specificTab;
+			}
+		}
+
+		// Fallback to single terminal tab or body
+		return (doc.querySelector('.single-terminal-tab') as HTMLElement | null) ?? doc.body;
+	}
+
+	private _calculatePosition(trigger: 'commandPalette' | 'inline-tab' | undefined, dimension: Dimension, instanceId?: number, anchorElement?: HTMLElement): IconPickerPosition {
+		if (trigger === 'inline-tab') {
+			const target = this._resolveInlineTabTarget(instanceId, anchorElement);
+			const targetRect = target.getBoundingClientRect();
+			return {
+				target: {
+					targetElements: [target],
+					x: targetRect.left,
+					y: targetRect.top + targetRect.height,
+				},
+				hoverPosition: {
+					hoverPosition: HoverPosition.BELOW,
+				}
+			};
+		}
+		// Default: position near command palette
+		const body = getActiveDocument().body;
+		const bodyRect = body.getBoundingClientRect();
+		return {
+			target: {
+				targetElements: [body],
+				x: bodyRect.left + (bodyRect.width - dimension.width) / 2,
+				y: bodyRect.top + this._layoutService.activeContainerOffset.quickPickTop + 25
+			},
+			hoverPosition: {
+				hoverPosition: HoverPosition.BELOW,
+			}
+		};
+	}
+
+	async pickIcons(trigger?: 'commandPalette' | 'inline-tab', instanceId?: number, anchorElement?: HTMLElement): Promise<ThemeIcon | undefined> {
 		const dimension = new Dimension(486, 260);
 		return new Promise<ThemeIcon | undefined>(resolve => {
 			this._register(this._iconSelectBox.onDidSelect(e => {
@@ -59,21 +115,23 @@ export class TerminalIconPicker extends Disposable {
 				this._iconSelectBox.dispose();
 			}));
 			this._iconSelectBox.clearInput();
-			const body = getActiveDocument().body;
-			const bodyRect = body.getBoundingClientRect();
+
+			const position = this._calculatePosition(trigger, dimension, instanceId, anchorElement);
+
 			const hoverWidget = this._hoverService.showInstantHover({
 				content: this._iconSelectBox.domNode,
 				target: {
-					targetElements: [body],
-					x: bodyRect.left + (bodyRect.width - dimension.width) / 2,
-					y: bodyRect.top + this._layoutService.activeContainerOffset.quickPickTop - 2
+					targetElements: position.target.targetElements,
+					x: position.target.x,
+					y: position.target.y,
 				},
 				position: {
-					hoverPosition: HoverPosition.BELOW,
+					hoverPosition: position.hoverPosition.hoverPosition,
 				},
 				persistence: {
 					sticky: true,
 				},
+				trapFocus: true,
 			}, true);
 			if (hoverWidget) {
 				this._register(hoverWidget);
