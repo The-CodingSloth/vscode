@@ -35,6 +35,12 @@ const icons = new Lazy<IconContribution[]>(() => {
 	return dedupedIcons;
 });
 
+type IconPickerPosition = {
+	target: { targetElements: HTMLElement[]; x: number; y: number };
+	hoverPosition: { hoverPosition: HoverPosition };
+};
+
+
 export class TerminalIconPicker extends Disposable {
 	private readonly _iconSelectBox: WorkbenchIconSelectBox;
 
@@ -51,7 +57,44 @@ export class TerminalIconPicker extends Disposable {
 		});
 	}
 
-	async pickIcons(): Promise<ThemeIcon | undefined> {
+	private _resolveInlineTabTarget(): HTMLElement {
+		const doc = getActiveDocument();
+		return (doc.getElementById(`terminal-tab-instance-1`) as HTMLElement | null)
+			?? (doc.querySelector('.single-terminal-tab') as HTMLElement | null)
+			?? doc.body;
+	}
+
+	private _calculatePosition(trigger: 'commandPalette' | 'inline-tab' | undefined, dimension: Dimension): IconPickerPosition {
+		if (trigger === 'inline-tab') {
+			const target = this._resolveInlineTabTarget();
+			const targetRect = target.getBoundingClientRect();
+			return {
+				target: {
+					targetElements: [target],
+					x: targetRect.left,
+					y: targetRect.top + 250,
+				},
+				hoverPosition: {
+					hoverPosition: HoverPosition.LEFT,
+				}
+			};
+		}
+		// Default: position near command palette
+		const body = getActiveDocument().body;
+		const bodyRect = body.getBoundingClientRect();
+		return {
+			target: {
+				targetElements: [body],
+				x: bodyRect.left + (bodyRect.width - dimension.width) / 2,
+				y: bodyRect.top + this._layoutService.activeContainerOffset.quickPickTop + 25
+			},
+			hoverPosition: {
+				hoverPosition: HoverPosition.BELOW,
+			}
+		};
+	}
+
+	async pickIcons(trigger?: 'commandPalette' | 'inline-tab'): Promise<ThemeIcon | undefined> {
 		const dimension = new Dimension(486, 260);
 		return new Promise<ThemeIcon | undefined>(resolve => {
 			this._register(this._iconSelectBox.onDidSelect(e => {
@@ -59,20 +102,22 @@ export class TerminalIconPicker extends Disposable {
 				this._iconSelectBox.dispose();
 			}));
 			this._iconSelectBox.clearInput();
-			const body = getActiveDocument().body;
-			const bodyRect = body.getBoundingClientRect();
+
+			const position = this._calculatePosition(trigger, dimension);
+
 			const hoverWidget = this._hoverService.showInstantHover({
 				content: this._iconSelectBox.domNode,
 				target: {
-					targetElements: [body],
-					x: bodyRect.left + (bodyRect.width - dimension.width) / 2,
-					y: bodyRect.top + this._layoutService.activeContainerOffset.quickPickTop - 2
+					targetElements: position.target.targetElements,
+					x: position.target.x,
+					y: position.target.y,
 				},
 				position: {
-					hoverPosition: HoverPosition.BELOW,
+					hoverPosition: position.hoverPosition.hoverPosition,
 				},
 				persistence: {
 					sticky: true,
+
 				},
 			}, true);
 			if (hoverWidget) {
