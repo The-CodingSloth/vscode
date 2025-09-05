@@ -57,25 +57,38 @@ export class TerminalIconPicker extends Disposable {
 		});
 	}
 
-	private _resolveInlineTabTarget(): HTMLElement {
+	private _resolveInlineTabTarget(instanceId?: number, anchorElement?: HTMLElement): HTMLElement {
 		const doc = getActiveDocument();
-		return (doc.getElementById(`terminal-tab-instance-1`) as HTMLElement | null)
-			?? (doc.querySelector('.single-terminal-tab') as HTMLElement | null)
-			?? doc.body;
+
+		// If an anchor element is provided, use it
+		if (anchorElement) {
+			return anchorElement;
+		}
+
+		// If instanceId is provided, try to find the specific tab
+		if (instanceId !== undefined) {
+			const specificTab = doc.getElementById(`terminal-tab-instance-${instanceId}`) as HTMLElement | null;
+			if (specificTab) {
+				return specificTab;
+			}
+		}
+
+		// Fallback to single terminal tab or body
+		return (doc.querySelector('.single-terminal-tab') as HTMLElement | null) ?? doc.body;
 	}
 
-	private _calculatePosition(trigger: 'commandPalette' | 'inline-tab' | undefined, dimension: Dimension): IconPickerPosition {
+	private _calculatePosition(trigger: 'commandPalette' | 'inline-tab' | undefined, dimension: Dimension, instanceId?: number, anchorElement?: HTMLElement): IconPickerPosition {
 		if (trigger === 'inline-tab') {
-			const target = this._resolveInlineTabTarget();
+			const target = this._resolveInlineTabTarget(instanceId, anchorElement);
 			const targetRect = target.getBoundingClientRect();
 			return {
 				target: {
 					targetElements: [target],
 					x: targetRect.left,
-					y: targetRect.top + 250,
+					y: targetRect.top + targetRect.height,
 				},
 				hoverPosition: {
-					hoverPosition: HoverPosition.LEFT,
+					hoverPosition: HoverPosition.BELOW,
 				}
 			};
 		}
@@ -94,7 +107,7 @@ export class TerminalIconPicker extends Disposable {
 		};
 	}
 
-	async pickIcons(trigger?: 'commandPalette' | 'inline-tab'): Promise<ThemeIcon | undefined> {
+	async pickIcons(trigger?: 'commandPalette' | 'inline-tab', instanceId?: number, anchorElement?: HTMLElement): Promise<ThemeIcon | undefined> {
 		const dimension = new Dimension(486, 260);
 		return new Promise<ThemeIcon | undefined>(resolve => {
 			this._register(this._iconSelectBox.onDidSelect(e => {
@@ -103,7 +116,7 @@ export class TerminalIconPicker extends Disposable {
 			}));
 			this._iconSelectBox.clearInput();
 
-			const position = this._calculatePosition(trigger, dimension);
+			const position = this._calculatePosition(trigger, dimension, instanceId, anchorElement);
 
 			const hoverWidget = this._hoverService.showInstantHover({
 				content: this._iconSelectBox.domNode,
@@ -117,8 +130,8 @@ export class TerminalIconPicker extends Disposable {
 				},
 				persistence: {
 					sticky: true,
-
 				},
+				trapFocus: true,
 			}, true);
 			if (hoverWidget) {
 				this._register(hoverWidget);

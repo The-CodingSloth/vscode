@@ -2275,7 +2275,7 @@ export class TerminalInstance extends Disposable implements ITerminalInstance {
 			return icon;
 		}
 		const iconPicker = this._scopedInstantiationService.createInstance(TerminalIconPicker);
-		const pickedIcon = await iconPicker.pickIcons(trigger);
+		const pickedIcon = await iconPicker.pickIcons(trigger, this.instanceId);
 		iconPicker.dispose();
 		if (!pickedIcon) {
 			return undefined;

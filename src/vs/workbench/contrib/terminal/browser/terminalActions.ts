@@ -706,7 +706,7 @@ export function registerTerminalActions() {
 		id: TerminalCommandId.ChangeIcon,
 		title: terminalStrings.changeIcon,
 		precondition: sharedWhenClause.terminalAvailable,
-		run: (c, _, args: unknown) => getResourceOrActiveInstance(c, args)?.changeIcon(undefined, 'commandPalette')
+		run: async (c, _, args: unknown) => await getResourceOrActiveInstance(c, args)?.changeIcon(undefined, 'commandPalette')
 	});
 
 	registerTerminalAction({
@@ -717,7 +717,7 @@ export function registerTerminalActions() {
 		run: async (c, accessor, args) => {
 			let icon: TerminalIcon | undefined;
 			if (c.groupService.lastAccessedMenu === 'inline-tab') {
-				getResourceOrActiveInstance(c, args)?.changeIcon(undefined, 'inline-tab');
+				await getResourceOrActiveInstance(c, args)?.changeIcon(undefined, 'inline-tab');
 				return;
 			}
 			for (const terminal of getSelectedInstances(accessor) ?? []) {
