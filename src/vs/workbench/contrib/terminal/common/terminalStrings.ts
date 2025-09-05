@@ -9,15 +9,15 @@ import { localize, localize2 } from '../../../../nls.js';
  * An object holding strings shared by multiple parts of the terminal
  */
 export const terminalStrings = {
-	terminal: localize('terminal', "Terminal"),
-	new: localize('terminal.new', "New Terminal"),
-	doNotShowAgain: localize('doNotShowAgain', 'Do Not Show Again'),
-	currentSessionCategory: localize('currentSessionCategory', 'current session'),
-	previousSessionCategory: localize('previousSessionCategory', 'previous session'),
-	typeTask: localize('task', "Task"),
-	typeLocal: localize('local', "Local"),
-	actionCategory: localize2('terminalCategory', "Terminal"),
-	focus: localize2('workbench.action.terminal.focus', "Focus Terminal"),
+	terminal: localize('terminal', "Robot Chatbox"),
+	new: localize('terminal.new', "Spawn New Robot Chatbox"),
+	doNotShowAgain: localize('doNotShowAgain', 'Stop Pestering Me'),
+	currentSessionCategory: localize('currentSessionCategory', 'current robot conversation'),
+	previousSessionCategory: localize('previousSessionCategory', 'ancient robot wisdom'),
+	typeTask: localize('task', "Robot Mission"),
+	typeLocal: localize('local', "Neighborhood Robot"),
+	actionCategory: localize2('terminalCategory', "Robot Chatbox"),
+	focus: localize2('workbench.action.terminal.focus', "Summon Robot Chatbox"),
 	focusAndHideAccessibleBuffer: localize2('workbench.action.terminal.focusAndHideAccessibleBuffer', "Focus Terminal and Hide Accessible Buffer"),
 	kill: {
 		...localize2('killTerminal', "Kill Terminal"),
