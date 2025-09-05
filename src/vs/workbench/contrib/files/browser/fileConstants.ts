@@ -19,14 +19,14 @@ export const COPY_PATH_COMMAND_ID = 'copyFilePath';
 export const COPY_RELATIVE_PATH_COMMAND_ID = 'copyRelativeFilePath';
 
 export const SAVE_FILE_AS_COMMAND_ID = 'workbench.action.files.saveAs';
-export const SAVE_FILE_AS_LABEL = nls.localize2('saveAs', "Save As...");
+export const SAVE_FILE_AS_LABEL = nls.localize2('saveAs', "Stash Somewhere Else...");
 export const SAVE_FILE_COMMAND_ID = 'workbench.action.files.save';
-export const SAVE_FILE_LABEL = nls.localize2('save', "Save");
+export const SAVE_FILE_LABEL = nls.localize2('save', "Squirrel Away");
 export const SAVE_FILE_WITHOUT_FORMATTING_COMMAND_ID = 'workbench.action.files.saveWithoutFormatting';
-export const SAVE_FILE_WITHOUT_FORMATTING_LABEL = nls.localize2('saveWithoutFormatting', "Save without Formatting");
+export const SAVE_FILE_WITHOUT_FORMATTING_LABEL = nls.localize2('saveWithoutFormatting', "Squirrel Away (Messy Style)");
 
 export const SAVE_ALL_COMMAND_ID = 'saveAll';
-export const SAVE_ALL_LABEL = nls.localize2('saveAll', "Save All");
+export const SAVE_ALL_LABEL = nls.localize2('saveAll', "Squirrel Away Everything");
 
 export const SAVE_ALL_IN_GROUP_COMMAND_ID = 'workbench.files.action.saveAllInGroup';
 

@@ -757,7 +757,7 @@ abstract class AbstractCloseAllAction extends Action2 {
 export class CloseAllEditorsAction extends AbstractCloseAllAction {
 
 	static readonly ID = 'workbench.action.closeAllEditors';
-	static readonly LABEL = localize2('closeAllEditors', 'Close All Editors');
+	static readonly LABEL = localize2('closeAllEditors', 'Banish All Scribblers');
 
 	constructor() {
 		super({

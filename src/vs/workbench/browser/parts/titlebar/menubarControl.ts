@@ -48,9 +48,9 @@ export type IOpenRecentAction = IAction & { uri: URI; remoteAuthority?: string }
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	submenu: MenuId.MenubarFileMenu,
 	title: {
-		value: 'File',
+		value: 'Banana Palace',
 		original: 'File',
-		mnemonicTitle: localize({ key: 'mFile', comment: ['&& denotes a mnemonic'] }, "&&File"),
+		mnemonicTitle: localize({ key: 'mFile', comment: ['&& denotes a mnemonic'] }, "&&Banana Palace"),
 	},
 	order: 1
 });
@@ -58,9 +58,9 @@ MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	submenu: MenuId.MenubarEditMenu,
 	title: {
-		value: 'Edit',
+		value: 'Wiggle Wand',
 		original: 'Edit',
-		mnemonicTitle: localize({ key: 'mEdit', comment: ['&& denotes a mnemonic'] }, "&&Edit")
+		mnemonicTitle: localize({ key: 'mEdit', comment: ['&& denotes a mnemonic'] }, "&&Wiggle Wand")
 	},
 	order: 2
 });
@@ -68,9 +68,9 @@ MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	submenu: MenuId.MenubarSelectionMenu,
 	title: {
-		value: 'Selection',
+		value: 'Pickle Picker',
 		original: 'Selection',
-		mnemonicTitle: localize({ key: 'mSelection', comment: ['&& denotes a mnemonic'] }, "&&Selection")
+		mnemonicTitle: localize({ key: 'mSelection', comment: ['&& denotes a mnemonic'] }, "&&Pickle Picker")
 	},
 	order: 3
 });
@@ -78,9 +78,9 @@ MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	submenu: MenuId.MenubarViewMenu,
 	title: {
-		value: 'View',
+		value: 'Eyeball Emporium',
 		original: 'View',
-		mnemonicTitle: localize({ key: 'mView', comment: ['&& denotes a mnemonic'] }, "&&View")
+		mnemonicTitle: localize({ key: 'mView', comment: ['&& denotes a mnemonic'] }, "&&Eyeball Emporium")
 	},
 	order: 4
 });
@@ -88,9 +88,9 @@ MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	submenu: MenuId.MenubarGoMenu,
 	title: {
-		value: 'Go',
+		value: 'Zoom Zoom',
 		original: 'Go',
-		mnemonicTitle: localize({ key: 'mGoto', comment: ['&& denotes a mnemonic'] }, "&&Go")
+		mnemonicTitle: localize({ key: 'mGoto', comment: ['&& denotes a mnemonic'] }, "&&Zoom Zoom")
 	},
 	order: 5
 });
@@ -98,9 +98,9 @@ MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	submenu: MenuId.MenubarTerminalMenu,
 	title: {
-		value: 'Terminal',
+		value: 'Robot Chatbox',
 		original: 'Terminal',
-		mnemonicTitle: localize({ key: 'mTerminal', comment: ['&& denotes a mnemonic'] }, "&&Terminal")
+		mnemonicTitle: localize({ key: 'mTerminal', comment: ['&& denotes a mnemonic'] }, "&&Robot Chatbox")
 	},
 	order: 7
 });
@@ -108,9 +108,9 @@ MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	submenu: MenuId.MenubarHelpMenu,
 	title: {
-		value: 'Help',
+		value: 'Panic Button',
 		original: 'Help',
-		mnemonicTitle: localize({ key: 'mHelp', comment: ['&& denotes a mnemonic'] }, "&&Help")
+		mnemonicTitle: localize({ key: 'mHelp', comment: ['&& denotes a mnemonic'] }, "&&Panic Button")
 	},
 	order: 8
 });
@@ -118,9 +118,9 @@ MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	submenu: MenuId.MenubarPreferencesMenu,
 	title: {
-		value: 'Preferences',
+		value: 'Fancy Settings',
 		original: 'Preferences',
-		mnemonicTitle: localize({ key: 'mPreferences', comment: ['&& denotes a mnemonic'] }, "Preferences")
+		mnemonicTitle: localize({ key: 'mPreferences', comment: ['&& denotes a mnemonic'] }, "Fancy Settings")
 	},
 	when: IsMacNativeContext,
 	order: 9
